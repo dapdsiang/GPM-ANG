@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 import dj_database_url
-from decouple import config
 
 BASE_DIR=Path(__file__).resolve().parent.parent
 SECRET_KEY=os.getenv('DJANGO_SECRET_KEY','change-this-key-before-deployment')
@@ -25,6 +24,7 @@ LANGUAGE_CODE='fr-fr'; TIME_ZONE='Africa/Conakry'; USE_I18N=True; USE_TZ=True
 STATIC_URL='static/'; MEDIA_URL='media/'; MEDIA_ROOT=BASE_DIR/'media'; DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
 LOGIN_URL='login'; LOGIN_REDIRECT_URL='dashboard'; LOGOUT_REDIRECT_URL='login'
 
+
 DATABASES = {
-    'default' : dj_database_url.parse(dj_database_url.config('DATABASE_URL'))
+    'default': dj_database_url.config()
 }
