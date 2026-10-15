@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<section class="panel login"><span class="logo">ANG</span><h1>Connexion sécurisée</h1><p>Gestion du patrimoine de l’Assemblée nationale</p><form method="post">{% csrf_token %}{{ form.as_p }}<button>Se connecter</button></form></section>{% endblock %}
