@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+
 class Site(models.Model):
  nom=models.CharField(max_length=120,unique=True); adresse=models.CharField(max_length=255,blank=True); description=models.TextField(blank=True)
  def __str__(self): return self.nom
