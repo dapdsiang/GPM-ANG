@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import dj_database_url
+from decouple import config
 
 BASE_DIR=Path(__file__).resolve().parent.parent
 SECRET_KEY=os.getenv('DJANGO_SECRET_KEY','change-this-key-before-deployment')
@@ -26,5 +27,5 @@ LOGIN_URL='login'; LOGIN_REDIRECT_URL='dashboard'; LOGOUT_REDIRECT_URL='login'
 
 
 DATABASES = {
-    'default': dj_database_url.config()
+    'default': dj_database_url.parse(config('DATABASE_URL'))
 }
