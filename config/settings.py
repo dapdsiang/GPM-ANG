@@ -1,7 +1,21 @@
 import os
 from pathlib import Path
 import dj_database_url
-from decouple import config
+
+try:
+    from decouple import config
+except ImportError:
+    def config(key, default=None, cast=None):
+        value = os.getenv(key, default)
+        if value is None:
+            return default
+        if cast is bool:
+            return str(value).strip().lower() in {'1', 'true', 'yes', 'on'}
+        if cast is int:
+            return int(value)
+        if cast is float:
+            return float(value)
+        return value
 
 BASE_DIR=Path(__file__).resolve().parent.parent
 SECRET_KEY=os.getenv('DJANGO_SECRET_KEY','change-this-key-before-deployment')
@@ -22,10 +36,11 @@ WSGI_APPLICATION='config.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS=[{'NAME':'django.contrib.auth.password_validation.MinimumLengthValidator'}]
 LANGUAGE_CODE='fr-fr'; TIME_ZONE='Africa/Conakry'; USE_I18N=True; USE_TZ=True
-STATIC_URL='static/'; MEDIA_URL='media/'; MEDIA_ROOT=BASE_DIR/'media'; DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
+STATIC_URL='/static/'; STATICFILES_DIRS=[]; STATIC_ROOT=BASE_DIR / 'staticfiles'; MEDIA_URL='/media/'; MEDIA_ROOT=BASE_DIR / 'media'; DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
 LOGIN_URL='login'; LOGIN_REDIRECT_URL='dashboard'; LOGOUT_REDIRECT_URL='login'
 
 
+DATABASE_URL = config('DATABASE_URL', default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
 DATABASES = {
-    'default': dj_database_url.parse(config('DATABASE_URL'))
+    'default': dj_database_url.parse(DATABASE_URL)
 }
